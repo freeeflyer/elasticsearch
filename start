@@ -110,9 +110,9 @@ if [ ! -e $CONF_DIR/log4j2.properties ]; then
 fi
 
 OPTS="$OPTS \
-  -E path.conf=/conf \
-  -E path.data=/data \
-  -E path.logs=/data \
+  -E path.conf=$CONF_DIR \
+  -E path.data=$DATA_DIR \
+  -E path.logs=$LOGS_DIR \
   -E transport.tcp.port=9300 \
   -E http.port=9200"
 
