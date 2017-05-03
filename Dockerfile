@@ -14,7 +14,7 @@ RUN cd /usr/share && \
 EXPOSE 9200 9300
 
 ENV ES_HOME=/usr/share/elasticsearch-$ES_VERSION \
-    ES_JAVA_OPTS="-Xms1Gb -Xmx1Gb $ES_JAVA_OPTS" \
+    ES_JAVA_OPTS="-Xms1g -Xmx1g $ES_JAVA_OPTS" \
     DEFAULT_ES_USER=elasticsearch \
     DISCOVER_TRANSPORT_IP=eth0 \
     DISCOVER_HTTP_IP=eth0
