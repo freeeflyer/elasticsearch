@@ -14,6 +14,7 @@ RUN cd /usr/share && \
 EXPOSE 9200 9300
 
 ENV ES_HOME=/usr/share/elasticsearch-$ES_VERSION \
+    ES_HEAP_SIZE=1Gb \
     DEFAULT_ES_USER=elasticsearch \
     DISCOVER_TRANSPORT_IP=eth0 \
     DISCOVER_HTTP_IP=eth0
