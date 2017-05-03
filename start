@@ -1,5 +1,9 @@
 #!/bin/sh
 
+CONF_DIR="/etc/elasticsearch"
+DATA_DIR="/data"
+LOGS_DIR="/data"
+
 pre_checks() {
   mmc=$(sysctl vm.max_map_count|sed 's/.*= //')
   if [[ $mmc -lt 262144 ]]; then
@@ -24,9 +28,9 @@ setup_clustering() {
   if [ -n "$CLUSTER" ]; then
     OPTS="$OPTS -E cluster.name=$CLUSTER"
     if [ -n "$CLUSTER_FROM" ]; then
-      if [ -d /data/$CLUSTER_FROM -a ! -d /data/$CLUSTER ]; then
+      if [ -d $DATA_DIR/$CLUSTER_FROM -a ! -d $DATA_DIR/$CLUSTER ]; then
         echo "Performing cluster data migration from $CLUSTER_FROM to $CLUSTER"
-        mv /data/$CLUSTER_FROM /data/$CLUSTER
+        mv $DATA_DIR/$CLUSTER_FROM $DATA_DIR/$CLUSTER
       fi
     fi
   fi
@@ -93,15 +97,15 @@ setup_personality() {
 
 pre_checks
 
-if [ -f /conf/env ]; then
-  . /conf/env
+if [ -f $CONF_DIR/env ]; then
+  . $CONF_DIR/env
 fi
 
-if [ ! -e /conf/elasticsearch.* ]; then
+if [ ! -e $CONF_DIR/elasticsearch.* ]; then
   cp $ES_HOME/config/elasticsearch.yml /conf
 fi
 
-if [ ! -e /conf/log4j2.properties ]; then
+if [ ! -e $CONF_DIR/log4j2.properties ]; then
   cp $ES_HOME/config/log4j2.properties /conf
 fi
 
@@ -119,7 +123,7 @@ setup_personality
 setup_clustering
 install_plugins
 
-mkdir -p /conf/scripts
+mkdir -p $CONF_DIR/scripts
 
 echo "Starting Elasticsearch with the options $OPTS"
 CMD="$ES_HOME/bin/elasticsearch $OPTS"
